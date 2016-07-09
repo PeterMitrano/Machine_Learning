@@ -4,10 +4,14 @@
 # and fits a polynomial of a degree somewhere between 0 and MAX_DEGREE.
 # It folds the data and uses cross validation.
 
+import warnings
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-MAX_DEGREE = 20
+warnings.simplefilter('ignore', np.RankWarning)
+
+MAX_DEGREE = 12
 k = 4
 
 all_data = np.array([
@@ -30,9 +34,19 @@ def compute_best_coefficients(all_data):
     # split data into test & validation.
     # keep (n - n/k) and test on n/k.
     n = all_data.shape[0]
-    best_func = np.poly1d([0])
+
     lowest_error = 10000
     average_errors = []
+
+    all_x = [i[0] for i in all_data]
+    all_y = [i[1] for i in all_data]
+    max_x_in_data = max(all_x)
+    min_x_in_data = min(all_x)
+    max_y_in_data = max(all_y)
+    min_y_in_data = min(all_y)
+    print min_x_in_data, max_x_in_data
+
+    reg_axes = plt.subplot(211)
 
     for degree in range(MAX_DEGREE):
         start = 0
@@ -72,10 +86,22 @@ def compute_best_coefficients(all_data):
 
         print "avg error for degree " + str(degree) + " is " + str(average_error)
 
+        # this is a regression of all the data, and isn't actually used in any math
+        # it's just for showing how good the fit is generally speaking
+        regression_func_for_degree = np.poly1d(np.polyfit(all_x, all_y, degree))
+        x_range = np.linspace(min_x_in_data, max_x_in_data, 100)
+        plt.plot(x_range, regression_func_for_degree(x_range))
+
         if average_error < lowest_error:
             lowest_error = average_error
             best_func = regression_func
 
+    plt.plot(all_x, all_y, 'g.')
+    reg_axes.set_xlim(min_x_in_data, max_x_in_data)
+    reg_axes.set_ylim(min_y_in_data, max_y_in_data)
+
+    avg_err_axes = plt.subplot(212)
+    avg_err_axes.set_ylim([0, 1000])
     plt.plot(average_errors)
     plt.show()
 
