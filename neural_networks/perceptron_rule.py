@@ -3,11 +3,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-LEARNING_RATE = 0.005
+MAX_IT = 10000
+LEARNING_RATE = 0.05
 
 all_data = np.array([
     [1, 7, 1],
-    [4, 4, 0],
+    [4, 4, 1],
     [5, 2, 0],
     [6, 0, 0],
     [7, -1, 0],
@@ -37,12 +38,12 @@ if __name__ == '__main__':
 
     N = len(all_data)
     w = np.random.random_sample(3)
-    print w
+    print 'initial w: ' ,w
     bias = 1
     errors = np.ones(N)
     it = 0
 
-    while it < 1000 and not np.array_equal(errors, np.zeros(N)):
+    while it < MAX_IT and not np.array_equal(errors, np.zeros(N)):
         i = 0
         for datum in all_data:
             x = (bias, datum[0], datum[1])
@@ -59,25 +60,18 @@ if __name__ == '__main__':
 
         it += 1
 
-    print w, it
+    print 'final w: ', w
+    print 'iterations needed: ', it
 
-    min_x = min(min(no_xs), min(yes_xs))
-    max_x =  max(max(no_xs), max(yes_xs))
-    min_y = min(min(no_ys), min(yes_ys))
-    max_y =  max(max(no_ys), max(yes_ys))
+    x1 = min(min(no_xs), min(yes_xs))
+    x2 =  max(max(no_xs), max(yes_xs))
 
-    line_ys = []
-    line_xs = []
-    for x in range(min_x, max_x):
-        # given x=x, and output=1 solve for y
-        w[2] = 0.001 if w[2] == 0 else w[2]
-        y = -(bias * w[0]  + x * w[1]) / w[2]
+    w[2] = 0.00001 if w[2] == 0 else w[2] # dividing by zero is a no-no
 
-        line_xs.append(x)
-        line_ys.append(y)
+    y1 = -(bias * w[0]  + x1 * w[1]) / w[2]
+    y2 = -(bias * w[0]  + x2 * w[1]) / w[2]
 
-
-    plt.plot(line_xs, line_ys)
+    plt.plot([x1, x2], [y1, y2])
     plt.plot(yes_xs, yes_ys, 'r.')
     plt.plot(no_xs, no_ys, 'b.')
     plt.show()

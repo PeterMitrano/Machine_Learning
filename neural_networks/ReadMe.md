@@ -8,6 +8,10 @@ here's an example of what you might see if `LEARNING_RATE=0.05`.
 
 ![Example output of trained neural net](https://raw.githubusercontent.com/PeterMitrano/Machine_Learning/master/neural_networks/perceptron_rule.png)
 
+If you try to run this on data that isn't linearly seperable, then the algorithm will never finish. Therefore, we cap the loop at `MAX_IT` iterations. Here's an example of a pretty good guess you might find on some unseperable data.
+
+![Example with data that isn't linearly seperable](https://raw.githubusercontent.com/PeterMitrano/Machine_Learning/master/neural_networks/perceptron_rule_non_seperable.png)
+
 just run `./perceptron_rule.py`
 
 ## Dependencies
