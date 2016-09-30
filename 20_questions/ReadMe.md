@@ -9,9 +9,9 @@ Example input:
 ```
 {
   'attributes': [
-    {'name': 'edible' 'type': 'boolean'},
-    {'name': 'price' 'type': 'continuous'},
-    {'name': 'color' 'type': 'discrete'},
+    {'name': 'edible', 'type': 'boolean'},
+    {'name': 'price', 'type': 'continuous'},
+    {'name': 'color', 'type': 'discrete'},
   ]
   'data' : [
    {'chair': ['edible': false, 'price': 50, 'color': 'any']},
